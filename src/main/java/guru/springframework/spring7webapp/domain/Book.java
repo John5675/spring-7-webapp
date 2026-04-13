@@ -1,9 +1,14 @@
 package guru.springframework.spring7webapp.domain;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Book {
@@ -12,6 +17,10 @@ public class Book {
     private Long id;
     private String title;
     private String isbn;
+
+    @ManyToMany
+    @JoinTable(name = "author book", joinColumns = @JoinColumn(name = "book id"), inverseJoinColumns = @JoinColumn(name = "author id"))
+    private Set<Author> authors;
 
     public Long getId() {
         return id;
@@ -35,5 +44,13 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 }
