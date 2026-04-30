@@ -1,22 +1,29 @@
 package guru.springframework.spring7webapp.bootstrap;
 
+import guru.springframework.spring7webapp.domain.Author;
+import guru.springframework.spring7webapp.domain.Book;
+import guru.springframework.spring7webapp.domain.Publisher;
+import guru.springframework.spring7webapp.repositories.AuthorRepository;
+import guru.springframework.spring7webapp.repositories.BookRepository;
+import guru.springframework.spring7webapp.repositories.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import guru.springframework.spring7webapp.domain.Author;
-import guru.springframework.spring7webapp.domain.Book;
-import guru.springframework.spring7webapp.repositories.AuthorRepository;
-import guru.springframework.spring7webapp.repositories.BookRepository;
-
+/**
+ * Created by jt, Spring Framework Guru.
+ */
 @Component
 public class BootstrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository,
+            PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -38,7 +45,7 @@ public class BootstrapData implements CommandLineRunner {
 
         Book noEJB = new Book();
         noEJB.setTitle("J2EE Development without EJB");
-        noEJB.setIsbn("54657585");
+        noEJB.setIsbn("54757585");
 
         Author rodSaved = authorRepository.save(rod);
         Book noEJBSaved = bookRepository.save(noEJB);
@@ -52,6 +59,12 @@ public class BootstrapData implements CommandLineRunner {
         System.out.println("In Bootstrap");
         System.out.println("Author Count: " + authorRepository.count());
         System.out.println("Book Count: " + bookRepository.count());
-    }
 
+        Publisher publisher = new Publisher();
+        publisher.setPublisherName("My Publisher");
+        publisher.setAddress("123 Main");
+        publisherRepository.save(publisher);
+
+        System.out.println("Publisher Count: " + publisherRepository.count());
+    }
 }
